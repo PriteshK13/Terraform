@@ -13,7 +13,7 @@ resource "aws_instance" "web" {
     #Ubuntu mumbai region
     instance_type = "t2.micro"
 
-    subnet_id = "aws_subnet.main_subnet.vpc_id"
+    subnet_id = aws_subnet.main_subnet.id
     tags = {
         Name = "Terraform-Instance"
     }
