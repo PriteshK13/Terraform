@@ -8,7 +8,7 @@ variable "subnet_cidr" {
     type = string
 }
 
-variable "subnjet_name" {
+variable "subnet_name" {
     description = "Name of subnet"
     type = string
 }
