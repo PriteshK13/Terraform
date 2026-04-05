@@ -1,21 +1,21 @@
 #VPC
-resource "aws_vpc" "main_vpc" {
-    cidr_block = "10.0.0.0/16"
+module "vpc" {
+    source = "./modules/vpc"
+    vpc_cidr = var.vpc_cidr
+    vpc_name = var.vpc_name
 }
-#Subnet
-resource "aws_subnet" "main_subnet" {
-    vpc_id = aws_vpc.main_vpc.id
-    cidr_block ="10.0.1.0/24"
+
+module "subnet" {
+    source = "./modules/subnet"
+    vpc_id = module.vpc.vpc_id
+    subnet_cidr = var.subnet_cidr
+    subnet_name = var.subnet_name
 }
-#EC2 instance
-resource "aws_instance" "web" {
-    ami = "ami-05d2d839d4f73aafb"
-    #Ubuntu mumbai region
-    instance_type = "t2.micro"
 
-    subnet_id = aws_subnet.main_subnet.id
-    tags = {
-        Name = "Terraform-Instance"
-    }
-
+module "ec2" {
+    source = "./modules/ec2"
+    subnet_id = module.subnet.subnet_id
+    ami_id = var.ami_id
+    instance_type = var.instance_type
+    instance_name = var. instance_name
 }
